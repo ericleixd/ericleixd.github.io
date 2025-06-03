@@ -9,8 +9,12 @@
     :root {
       --main-color: #0969da;
       --bg-light: #f8f9fa;
-      --border-radius: 10px;
-      --shadow: 0 2px 8px rgba(0,0,0,0.02);
+      --border-radius: 12px;
+      --shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+    html {
+      font-size: 18px;
+      background: var(--bg-light);
     }
     body {
       margin: 0;
@@ -22,13 +26,14 @@
     header {
       background: var(--main-color);
       color: #fff;
-      padding: 2rem 1rem 1rem 1rem;
+      padding: 2rem 1rem 1.2rem 1rem;
       text-align: center;
       box-shadow: var(--shadow);
     }
     header h1 {
       margin: 0 0 0.5em 0;
       font-size: 2rem;
+      letter-spacing: 1px;
     }
     nav {
       margin: 1rem auto 0 auto;
@@ -41,7 +46,7 @@
       color: #fff;
       text-decoration: underline;
       font-weight: bold;
-      font-size: 1.1rem;
+      font-size: 1.08rem;
       transition: color 0.2s;
     }
     nav a:hover {
@@ -59,12 +64,13 @@
       color: var(--main-color);
       margin-top: 2rem;
       margin-bottom: 1rem;
+      font-size: 1.25rem;
     }
     .section {
-      margin-bottom: 2.5rem;
+      margin-bottom: 2.2rem;
     }
     ol, ul {
-      padding-left: 1.3em;
+      padding-left: 1.5em;
     }
     .download-links {
       background: #eaf6ff;
@@ -72,14 +78,16 @@
       border-radius: var(--border-radius);
       margin: 1em 0 2em 0;
       word-break: break-all;
+      font-size: 1rem;
     }
     .download-links a {
       display: block;
-      margin-bottom: 0.8em;
+      margin-bottom: 0.7em;
       color: var(--main-color);
       font-weight: bold;
       text-decoration: underline;
       font-size: 1em;
+      word-break: break-all;
     }
     .note {
       background: #fff3cd;
@@ -88,18 +96,32 @@
       padding: 0.8em 1em;
       border-radius: var(--border-radius);
       margin: 1.2em 0;
+      font-size: 1rem;
     }
     footer {
       text-align: center;
       padding: 2em 0 1em 0;
       color: #888;
-      font-size: 0.95em;
+      font-size: 1em;
       background: transparent;
+      letter-spacing: 1px;
     }
+    /* 移动端适配 */
     @media (max-width: 600px) {
-      main { padding: 1rem 0.5rem; }
+      html { font-size: 15.5px; }
+      main { padding: 1rem 0.4rem; }
       nav { gap: 1rem; }
-      .download-links a { font-size: 0.97em; }
+      header h1 { font-size: 1.3rem; }
+      h2 { font-size: 1.07rem; }
+      .download-links { font-size: 0.97rem; }
+      footer { font-size: 0.95em; }
+      .section { margin-bottom: 1.4rem; }
+      body { line-height: 1.72; }
+    }
+    @media (max-width: 400px) {
+      html { font-size: 13.5px; }
+      main { padding: 0.6rem 0.1rem; }
+      header h1 { font-size: 1.05rem; }
     }
   </style>
 </head>
@@ -108,8 +130,8 @@
     <h1>Shokz APP 安装与升级操作指引</h1>
     <div>高降噪开关、高灵敏度广域开关、音量加减共存功能适用</div>
     <nav>
-      <a href="#ios">iOS 操作步骤</a>
-      <a href="#android">安卓操作步骤</a>
+      <a href="#ios" target="_blank" rel="noopener">iOS 操作步骤</a>
+      <a href="#android" target="_blank" rel="noopener">安卓操作步骤</a>
     </nav>
   </header>
   <main>
@@ -130,23 +152,23 @@
     <section id="ios" class="section">
       <h2>iOS 系统操作步骤</h2>
       <ol>
-        <li><strong>卸载现有 Shokz App</strong> <br>
+        <li><strong>卸载现有 Shokz App</strong><br>
           长按 Shokz App 图标，点击“移除App”并确认卸载。
         </li>
-        <li><strong>安装 TestFlight</strong> <br>
+        <li><strong>安装 TestFlight</strong><br>
           打开 App Store，搜索并安装 <b>TestFlight</b>。
         </li>
-        <li><strong>通过 Safari 打开 TestFlight 链接</strong> <br>
+        <li><strong>通过 Safari 打开 TestFlight 链接</strong><br>
           点击上方 iOS 安装包下载链接，或在 Safari 浏览器中访问：<br>
           <a href="https://testflight.apple.com/join/Naazh77b" target="_blank" rel="noopener">https://testflight.apple.com/join/Naazh77b</a>
         </li>
-        <li><strong>安装 beta 版 Shokz APP</strong> <br>
+        <li><strong>安装 beta 版 Shokz APP</strong><br>
           按照 TestFlight 指引安装 Shokz Beta APP。
         </li>
-        <li><strong>蓝牙连接耳机</strong> <br>
+        <li><strong>蓝牙连接耳机</strong><br>
           打开手机蓝牙，连接 Shokz 耳机。
         </li>
-        <li><strong>打开 Shokz Beta APP</strong> <br>
+        <li><strong>打开 Shokz Beta APP</strong><br>
           按提示完成设置与升级。
         </li>
       </ol>
@@ -154,18 +176,18 @@
     <section id="android" class="section">
       <h2>Android 系统操作步骤</h2>
       <ol>
-        <li><strong>卸载现有 Shokz App</strong> <br>
+        <li><strong>卸载现有 Shokz App</strong><br>
           长按 Shokz App 图标，点击“卸载”并确认。
         </li>
-        <li><strong>下载并安装 beta 版 Shokz APP</strong> <br>
+        <li><strong>下载并安装 beta 版 Shokz APP</strong><br>
           在手机浏览器中点击安卓安装包下载链接，或访问：<br>
           <a href="https://app-pre-cn.shokz.com.cn:28080/pkg/shokz-pre-release-5.4.15-174-20250509_16_48_encrypted.apk" target="_blank" rel="noopener">https://app-pre-cn.shokz.com.cn:28080/pkg/shokz-pre-release-5.4.15-174-20250509_16_48_encrypted.apk</a>
         </li>
         <li><strong>根据提示完成安装</strong></li>
-        <li><strong>蓝牙连接耳机</strong> <br>
+        <li><strong>蓝牙连接耳机</strong><br>
           打开手机蓝牙，连接 Shokz 耳机。
         </li>
-        <li><strong>打开 Shokz Beta APP</strong> <br>
+        <li><strong>打开 Shokz Beta APP</strong><br>
           按提示完成设置与升级。
         </li>
       </ol>
@@ -182,5 +204,16 @@
   <footer>
     OpenDots ONE 产品团队撰写
   </footer>
+  <script>
+    // 移动端优化: 内页锚点导航自动新窗口打开（仅主页锚点不跳转）
+    document.querySelectorAll('nav a').forEach(function(link){
+      link.addEventListener('click', function(e){
+        if(this.hash && location.hash !== this.hash){
+          e.preventDefault();
+          window.open(location.pathname + this.hash, '_blank','noopener');
+        }
+      });
+    });
+  </script>
 </body>
 </html>
