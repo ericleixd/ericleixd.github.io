@@ -1,7 +1,6 @@
 (() => {
   let activeId = '';
-  let honorObserver = null;
-  let yearObserver = null;
+  let revealObserver;
   const reduceMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   const entries = () => {
@@ -81,42 +80,42 @@
     }
   };
 
-  const observeHonors = () => {
-    honorObserver?.disconnect();
-    const cards = [...document.querySelectorAll('.honor-card.featured')];
-    if (!cards.length) return;
-    if (reduceMotion()) {
-      for (const card of cards) card.classList.add('is-visible');
+  // 默认显示正文。只有注册观察器后才启用入场动画，避免 WebView 禁用脚本时留下空卡片。
+  const observeContent = () => {
+    revealObserver?.disconnect();
+    const cards = document.querySelectorAll('.honor-card.featured, .project-year-block');
+    if (reduceMotion() || !window.IntersectionObserver) {
+      for (const card of cards) card.classList.remove('awaiting-reveal');
       return;
     }
-    honorObserver = new IntersectionObserver((entriesList) => {
-      for (const entry of entriesList) {
-        if (!entry.isIntersecting) continue;
-        entry.target.classList.add('is-visible');
-        honorObserver.unobserve(entry.target);
+    revealObserver = new IntersectionObserver((changes, observer) => {
+      for (const change of changes) {
+        if (!change.isIntersecting) continue;
+        change.target.classList.remove('awaiting-reveal');
+        observer.unobserve(change.target);
       }
-    }, { threshold: 0.28, rootMargin: '0px 0px -8% 0px' });
-    for (const card of cards) honorObserver.observe(card);
+    });
+    for (const card of cards) {
+      card.classList.add('awaiting-reveal');
+      revealObserver.observe(card);
+    }
   };
 
-  const observeYears = () => {
-    yearObserver?.disconnect();
-    const blocks = [...document.querySelectorAll('.project-year-block')];
-    if (!blocks.length) return;
-    if (reduceMotion()) {
-      for (const block of blocks) block.classList.add('is-visible');
-      syncTimeline();
-      return;
-    }
-    yearObserver = new IntersectionObserver((entriesList) => {
-      for (const entry of entriesList) {
-        if (!entry.isIntersecting) continue;
-        entry.target.classList.add('is-visible');
-        yearObserver.unobserve(entry.target);
-      }
-    }, { threshold: 0.12, rootMargin: '0px 0px -6% 0px' });
-    for (const block of blocks) yearObserver.observe(block);
+  // 语言和系统字号都可能使吸顶导航换行。用真实高度给片段导航预留空间。
+  const measureHeader = () => {
+    const header = document.querySelector('.site-header');
+    if (header) document.documentElement.style.setProperty('--header-offset', (header.offsetHeight + 8) + 'px');
+  };
+  const headerObserver = window.ResizeObserver ? new ResizeObserver(measureHeader) : null;
+  const refresh = () => {
+    measureHeader();
+    headerObserver?.disconnect();
+    const header = document.querySelector('.site-header');
+    if (header) headerObserver?.observe(header);
+    activeId = '';
+    pick();
     syncTimeline();
+    observeContent();
   };
 
   let ticking = false;
@@ -139,13 +138,7 @@
 
   window.addEventListener('scroll', onScroll, { passive: true });
   window.addEventListener('resize', onScroll, { passive: true });
-  window.__personalSiteNavRefresh = () => {
-    activeId = '';
-    pick();
-    observeHonors();
-    observeYears();
-  };
-  pick();
-  observeHonors();
-  observeYears();
+  window.addEventListener('resize', measureHeader);
+  window.__personalSiteNavRefresh = refresh;
+  refresh();
 })();
